@@ -138,7 +138,7 @@ public class JobController extends BaseController {
     public Map<String, Object> queryJob(@RequestParam(value="pageNum")Integer pageNum, @RequestParam(value="pageSize")Integer pageSize){
         PageInfo<JobAndTrigger> jobAndTrigger = service.getJobAndTriggerDetails(pageNum, pageSize);
         Map<String, Object> map = new HashMap<>();
-        map.put("JobAndTrigger", jobAndTrigger);
+        map.put("data", jobAndTrigger);
         map.put("number", jobAndTrigger.getTotal());
         return map;
     }

@@ -119,13 +119,13 @@
 
     <el-dialog title="添加任务" :visible.syn="dialogFormVisible">
         <el-form :model="form">
-            <el-form-item label="任务名称" label-width="120px" style="width:35%">
+            <el-form-item label="任务名称" label-width="120px" style="width:60%">
                 <el-input v-model="form.jobName" auto-complete="off"></el-input>
             </el-form-item>
-            <el-form-item label="任务分组" label-width="120px" style="width:35%">
+            <el-form-item label="任务分组" label-width="120px" style="width:60%">
                 <el-input v-model="form.jobGroup" auto-complete="off"></el-input>
             </el-form-item>
-            <el-form-item label="表达式" label-width="120px" style="width:35%">
+            <el-form-item label="表达式" label-width="120px" style="width:60%">
                 <el-input v-model="form.cronExpression" auto-complete="off"></el-input>
             </el-form-item>
         </el-form>
@@ -137,7 +137,7 @@
 
     <el-dialog title="修改任务" :visible.syn="updateFormVisible">
         <el-form :model="updateform">
-            <el-form-item label="表达式" label-width="120px" style="width:35%">
+            <el-form-item label="表达式" label-width="120px" style="width:60%">
                 <el-input v-model="updateform.cronExpression" auto-complete="off"></el-input>
             </el-form-item>
         </el-form>
@@ -185,14 +185,14 @@
             form: {
                 jobName: '',
                 jobGroup: '',
-                cronExpression: '',
+                cronExpression: ''
             },
 
             updateform: {
                 jobName: '',
                 jobGroup: '',
-                cronExpression: '',
-            },
+                cronExpression: ''
+            }
         },
 
         methods: {
@@ -201,7 +201,7 @@
             loadData: function(pageNum, pageSize){
                 this.$http.get('job/queryJob?' + 'pageNum=' +  pageNum + '&pageSize=' + pageSize).then(function(res){
                     console.log(res);
-                    this.tableData = res.body.JobAndTrigger.list;
+                    this.tableData = res.body.data.list;
                     this.totalCount = res.body.number;
                 },function(){
                     console.log('failed');
@@ -210,7 +210,7 @@
 
             //单行删除
             handleDelete: function(index, row) {
-                this.$http.post('job/deleteJob',{"jobClassName":row.job_NAME,"jobGroupName":row.job_GROUP},{emulateJSON: true}).then(function(res){
+                this.$http.post('job/deleteJob',{"jobClassName":row.jobName,"jobGroupName":row.jobGroup},{emulateJSON: true}).then(function(res){
                     this.loadData( this.currentPage, this.pagesize);
                 },function(){
                     console.log('failed');
@@ -219,7 +219,7 @@
 
             //暂停任务
             handlePause: function(index, row){
-                this.$http.post('job/pauseJob',{"jobClassName":row.job_NAME,"jobGroupName":row.job_GROUP},{emulateJSON: true}).then(function(res){
+                this.$http.post('job/pauseJob',{"jobClassName":row.jobName,"jobGroupName":row.jobGroup},{emulateJSON: true}).then(function(res){
                     this.loadData( this.currentPage, this.pagesize);
                 },function(){
                     console.log('failed');
@@ -228,7 +228,7 @@
 
             //恢复任务
             handleResume: function(index, row){
-                this.$http.post('job/resumeJob',{"jobClassName":row.job_NAME,"jobGroupName":row.job_GROUP},{emulateJSON: true}).then(function(res){
+                this.$http.post('job/resumeJob',{"jobClassName":row.jobName,"jobGroupName":row.jobGroup},{emulateJSON: true}).then(function(res){
                     this.loadData( this.currentPage, this.pagesize);
                 },function(){
                     console.log('failed');
@@ -259,8 +259,8 @@
             handleUpdate: function(index, row){
                 console.log(row);
                 this.updateFormVisible = true;
-                this.updateform.jobName = row.job_CLASS_NAME;
-                this.updateform.jobGroup = row.job_GROUP;
+                this.updateform.jobName = row.jobClassName;
+                this.updateform.jobGroup = row.jobGroup;
             },
 
             //更新任务
