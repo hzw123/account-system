@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.mauth.account.mapper.AccountRuleMapper">
+	<resultMap id="BaseResultMap" type="cn.mauth.account.core.model.AccountRule">
+		<!--
+		  WARNING - @mbg.generated
+		-->
+		<id column="rule_id" jdbcType="VARCHAR" property="ruleId"/>
+		<id column="rule_seq" jdbcType="INTEGER" property="ruleSeq"/>
+		<result column="trans_type" jdbcType="VARCHAR" property="transType"/>
+		<result column="pay_channel" jdbcType="VARCHAR" property="payChannel"/>
+		<result column="payer_subject_no" jdbcType="VARCHAR" property="payerSubjectNo"/>
+		<result column="payer_flag" jdbcType="CHAR" property="payerFlag"/>
+		<result column="payee_subject_no" jdbcType="VARCHAR" property="payeeSubjectNo"/>
+		<result column="payee_flag" jdbcType="CHAR" property="payeeFlag"/>
+		<result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+		<result column="remark" jdbcType="VARCHAR" property="remark"/>
+	</resultMap>
+
+	<sql id="Base_Column_List">
+		rule_id, rule_seq,trans_type, pay_channel, payer_subject_no,
+		payer_flag, payee_subject_no, payee_flag, update_time, remark
+	</sql>
+
+	<select id="findAccountRules" resultMap="BaseResultMap"
+			parameterType="cn.mauth.account.core.model.AccountRule">
+		select
+		<include refid="Base_Column_List" />
+		from t_account_rule
+		where trans_type = #{transType}
+		<if test="payChannel != null and payChannel != ''">
+			and pay_channel = #{payChannel}
+		</if>
+		order by rule_seq
+	</select>
+
+	<select id = "getAllAccountRules" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from t_account_rule
+		order by rule_seq
+	</select>
+</mapper>

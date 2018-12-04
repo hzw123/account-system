@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.mauth.account.mapper.AccountBillMapper">
+    <resultMap id="BaseResultMap" type="cn.mauth.account.core.model.AccountBill">
+        <!--
+          WARNING - @mbg.generated
+        -->
+        <id column="bill_id" jdbcType="BIGINT" property="billId"/>
+        <result column="account_date" jdbcType="VARCHAR" property="accountDate"/>
+        <result column="account_seq" jdbcType="BIGINT" property="accountSeq"/>
+        <result column="order_id" jdbcType="VARCHAR" property="orderId"/>
+        <result column="dr_cr_flag" jdbcType="CHAR" property="drCrFlag"/>
+        <result column="amount" jdbcType="BIGINT" property="amount"/>
+        <result column="account_id" jdbcType="VARCHAR" property="accountId"/>
+        <result column="account_amount" jdbcType="BIGINT" property="accountAmount"/>
+        <result column="record_time" jdbcType="TIMESTAMP" property="recordTime"/>
+        <result column="recon_status" jdbcType="CHAR" property="reconStatus"/>
+        <result column="cust_id" jdbcType="VARCHAR" property="custId"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        account_date, account_seq, order_id, dr_cr_flag, amount,
+        account_id, account_amount, record_time, recon_status, cust_id
+    </sql>
+
+    <insert id="saveAccountBill" parameterType="cn.mauth.account.core.model.AccountBill">
+        insert t_account_bill
+        (<include refid="Base_Column_List"/>)
+        values (#{accountDate,jdbcType=VARCHAR},#{accountSeq,jdbcType=BIGINT},
+        #{orderId,jdbcType=VARCHAR},#{drcrFlag,jdbcType=VARCHAR},
+        #{amount,jdbcType=BIGINT},#{accountId,jdbcType=VARCHAR},
+        #{accountAmount,jdbcType=BIGINT},#{recordTime,jdbcType=TIMESTAMP},
+        #{reconStatus,jdbcType=CHAR},#{custId,jdbcType=VARCHAR})
+    </insert>
+
+    <insert id="batchSaveAccountBill" parameterType="cn.mauth.account.core.model.AccountBill">
+        insert t_account_bill
+        (<include refid="Base_Column_List"/>)
+        values
+        <foreach item="accountBill" collection="list" separator=",">
+            (
+              #{accountBill.accountDate,jdbcType=VARCHAR},#{accountBill.accountSeq,jdbcType=BIGINT},
+              #{accountBill.orderId,jdbcType=VARCHAR},#{accountBill.drcrFlag,jdbcType=VARCHAR},
+              #{accountBill.amount,jdbcType=BIGINT},#{accountBill.accountId,jdbcType=VARCHAR},
+              #{accountBill.accountAmount,jdbcType=BIGINT},#{accountBill.recordTime,jdbcType=TIMESTAMP},
+              #{accountBill.reconStatus,jdbcType=CHAR},#{accountBill.custId,jdbcType=VARCHAR}
+            )
+        </foreach>
+    </insert>
+</mapper>

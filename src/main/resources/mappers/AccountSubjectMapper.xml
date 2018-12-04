@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.mauth.account.mapper.AccountSubjectMapper">
+  <resultMap id="BaseResultMap" type="cn.mauth.account.core.model.AccountSubject">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="subject_no" jdbcType="VARCHAR" property="subjectNo" />
+    <result column="subject_name" jdbcType="VARCHAR" property="subjectName" />
+    <result column="subject_type" jdbcType="CHAR" property="subjectType" />
+    <result column="dr_cr_flag" jdbcType="CHAR" property="drCrFlag" />
+    <result column="subject_level" jdbcType="CHAR" property="subjectLevel" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+  </resultMap>
+
+  <select id="querySubjectByPrimaryKey" parameterType="java.lang.String"
+          resultMap="BaseResultMap">
+      select *
+      from t_subject
+      where subject_no = #{subjectNo,jdbcType=VARCHAR}
+  </select>
+</mapper>

@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.mauth.account.mapper.AccountBookMapper">
+    <resultMap id="BaseResultMap" type="cn.mauth.account.core.model.AccountBook">
+        <!--
+          WARNING - @mbg.generated
+        -->
+        <id column="book_id" jdbcType="BIGINT" property="bookId"/>
+        <result column="rule_id" jdbcType="VARCHAR" property="ruleId"/>
+        <result column="account_date" jdbcType="VARCHAR" property="accountDate"/>
+        <result column="order_id" jdbcType="VARCHAR" property="orderId"/>
+        <result column="dr_subject_no" jdbcType="VARCHAR" property="drSubjectNo"/>
+        <result column="dr_cust_id" jdbcType="VARCHAR" property="drCustId"/>
+        <result column="dr_account_id" jdbcType="VARCHAR" property="drAccountId"/>
+        <result column="dr_cash_amount" jdbcType="VARCHAR" property="drCashAmount"/>
+        <result column="dr_amount" jdbcType="BIGINT" property="drAmount"/>
+        <result column="dr_account_seq" jdbcType="BIGINT" property="drAccountSeq"/>
+        <result column="cr_subject_no" jdbcType="VARCHAR" property="crSubjectNo"/>
+        <result column="cr_cust_id" jdbcType="VARCHAR" property="crCustId"/>
+        <result column="cr_account_id" jdbcType="VARCHAR" property="crAccountId"/>
+        <result column="cr_cash_amount" jdbcType="VARCHAR" property="crCashAmount"/>
+        <result column="cr_amount" jdbcType="BIGINT" property="crAmount"/>
+        <result column="cr_account_seq" jdbcType="BIGINT" property="crAccountSeq"/>
+        <result column="amount" jdbcType="BIGINT" property="amount"/>
+        <result column="book_time" jdbcType="TIMESTAMP" property="bookTime"/>
+        <result column="book_state" jdbcType="CHAR" property="bookState"/>
+        <result column="payer_flag" jdbcType="CHAR" property="payerFlag"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        book_id, rule_id, account_date, order_id,
+        dr_subject_no, dr_cust_id, dr_account_id, dr_cash_amount, dr_amount, dr_account_seq,
+        cr_subject_no, cr_cust_id, cr_account_id, cr_cash_amount, cr_amount, cr_account_seq,
+        amount, book_time, book_state, payer_flag
+    </sql>
+
+    <select id="queryAccountBook" parameterType="cn.mauth.account.core.model.AccountBook" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_account_book
+        where 1 = 1
+        <if test="orderId != null and orderId !=''">
+            and order_id = #{orderId,jdbcType=VARCHAR}
+        </if>
+        <if test="ruleId != null and ruleId !=''">
+            and rule_id = #{ruleId,jdbcType=VARCHAR}
+        </if>
+        <if test="bookState != null and bookState !=''">
+            and book_state = #{bookState,jdbcType=VARCHAR}
+        </if>
+    </select>
+    
+    <select id="countAccountBookByOrderId" parameterType="String" resultType="java.lang.Integer">
+        select count(1)
+        from t_account_book
+        where order_id = #{orderId,jdbcType=VARCHAR}
+        <if test="ruleId != null and ruleId != ''">
+            and rule_id = #{ruleId,jdbcType=VARCHAR}
+        </if>
+    </select>
+
+    <insert id="saveAccountBooks" parameterType="cn.mauth.account.core.model.AccountBook">
+        insert t_account_book(rule_id, account_date, order_id,
+        dr_subject_no, dr_cust_id, dr_account_id, dr_cash_amount, dr_amount, dr_account_seq,
+        cr_subject_no, cr_cust_id, cr_account_id, cr_cash_amount, cr_amount, cr_account_seq,
+        amount, book_time, book_state, payer_flag)
+        values
+        <foreach item="accountBook" collection="list" separator=",">
+            (
+                #{accountBook.ruleId,jdbcType=VARCHAR},#{accountBook.accountDate,jdbcType=VARCHAR},
+                #{accountBook.orderId,jdbcType=VARCHAR},#{accountBook.drSubjectNo,jdbcType=VARCHAR},
+                #{accountBook.drCustId,jdbcType=VARCHAR},#{accountBook.drAccountId,jdbcType=VARCHAR},
+                #{accountBook,drCashAmount,jdbcType=VARCHAR},#{accountBook.drAmount,jdbcType=BIGINT},
+                #{accountBook.drAccountSeq,jdbcType=BIGINT},#{accountBook.crSubjectNo,jdbcType=VARCHAR},
+                #{accountBook.crCustId,jdbcType=VARCHAR},#{accountBook.crAccountId,jdbcType=VARCHAR},
+                #{accountBook.crCashAmount,jdbcType=VARCHAR},#{accountBook.crAmount,jdbcType=BIGINT},
+                #{accountBook.crAccountSeq,jdbcType=BIGINT},#{accountBook.amount,jdbcType=BIGINT},
+                #{accountBook.bookTime,jdbcType=TIMESTAMP},#{accountBook.bookState,jdbcType=VARCHAR},
+                #{accountBook.payerFlag,jdbcType=VARCHAR}
+            )
+        </foreach>
+    </insert>
+
+    <insert id="saveAccountBook" parameterType="cn.mauth.account.core.model.AccountBook">
+        insert t_account_book(rule_id, account_date, order_id,
+        dr_subject_no, dr_cust_id, dr_account_id, dr_cash_amount, dr_amount, dr_account_seq,
+        cr_subject_no, cr_cust_id, cr_account_id, cr_cash_amount, cr_amount, cr_account_seq,
+        amount, book_time, book_state, payer_flag)
+        values(#{ruleId,jdbcType=VARCHAR},#{accountDate,jdbcType=VARCHAR},
+        #{orderId,jdbcType=VARCHAR},#{drSubjectNo,jdbcType=VARCHAR},
+        #{drCustId,jdbcType=VARCHAR},#{drAccountId,jdbcType=VARCHAR},
+        #{drCashAmount,jdbcType=BIGINT},#{drAmount,jdbcType=BIGINT},
+        #{drAccountSeq,jdbcType=BIGINT},#{crSubjectNo,jdbcType=VARCHAR},
+        #{crCustId,jdbcType=VARCHAR},#{crAccountId,jdbcType=VARCHAR},
+        #{crCashAmount,jdbcType=BIGINT},#{crAmount,jdbcType=BIGINT},
+        #{crAccountSeq,jdbcType=BIGINT},#{amount,jdbcType=BIGINT},
+        #{bookTime,jdbcType=TIMESTAMP},#{bookState,jdbcType=VARCHAR},
+        #{payerFlag,jdbcType=VARCHAR})
+    </insert>
+
+    <update id="updateAccountBook" parameterType="cn.mauth.account.core.model.AccountBook">
+        update t_account_book
+        <set>
+            <if test="drCashAmount != null">
+                dr_cash_amount = #{drCashAmount,jdbcType=BIGINT},
+            </if>
+            <if test="drAccountSeq != null">
+                dr_account_seq = #{drAccountSeq,jdbcType=BIGINT},
+            </if>
+            <if test="crCashAmount != null">
+                cr_cash_amount = #{crCashAmount,jdbcType=BIGINT},
+            </if>
+            <if test="crAccountSeq != null">
+                cr_account_seq = #{crAccountSeq,jdbcType=BIGINT},
+            </if>
+            <if test="bookState != null and bookState != ''">
+                book_state = #{bookState,jdbcType=VARCHAR}
+            </if>
+        </set>
+        where book_id = #{bookId,jdbcType=BIGINT}
+    </update>
+</mapper>

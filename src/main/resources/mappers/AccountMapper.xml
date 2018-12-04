@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.mauth.account.mapper.AccountMapper">
+	<resultMap id="BaseResultMap" type="cn.mauth.account.core.model.Account">
+		<!--
+		  WARNING - @mbg.generated
+		-->
+		<id column="account_id" jdbcType="VARCHAR" property="accountId"/>
+		<result column="account_name" jdbcType="VARCHAR" property="accountName"/>
+		<result column="account_seq" jdbcType="BIGINT" property="accountSeq"/>
+		<result column="subject_no" jdbcType="VARCHAR" property="subjectNo"/>
+		<result column="subject_type" jdbcType="CHAR" property="subjectType"/>
+		<result column="account_state" jdbcType="CHAR" property="accountState"/>
+		<result column="cash_amount" jdbcType="BIGINT" property="cashAmount"/>
+		<result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+		<result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+		<result column="dr_cr_flag" jdbcType="CHAR" property="drcrFlag"/>
+		<result column="dr_amount" jdbcType="BIGINT" property="drAmount"/>
+		<result column="cr_amount" jdbcType="BIGINT" property="crAmount"/>
+		<result column="sign" jdbcType="VARCHAR" property="sign"/>
+		<result column="cust_id" jdbcType="VARCHAR" property="custId"/>
+	</resultMap>
+
+	<sql id="Base_Column_List">
+		account_id, account_name, account_seq, subject_no, subject_type, account_state,
+		cash_amount, dr_cr_flag, dr_amount, cr_amount, sign, cust_id
+	</sql>
+
+	<select id="findAccountIdByCustAndSubject" parameterType="java.lang.String"
+		resultMap="BaseResultMap">
+		select 
+		<include refid="Base_Column_List"/>
+		from t_account
+		where cust_id = #{custId,jdbcType=VARCHAR}
+		and subject_no = #{subjectNo,jdbcType=VARCHAR}
+	</select>
+
+	<select id="findAccountByKeyWithLock" parameterType="java.lang.String"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List"/>
+		from t_account
+		where account_id = #{accountId,jdbcType=VARCHAR}
+		for update
+	</select>
+
+	<select id="getAllAccount" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List"/>
+		from t_account
+	</select>
+
+	<insert id="saveAccount" parameterType="cn.mauth.account.core.model.Account">
+		insert into t_account
+		(account_id, account_name, account_seq, subject_no, cust_id, subject_type, account_state,
+		cash_amount, dr_cr_flag, dr_amount, cr_amount, create_time, sign)
+		values
+		(
+		#{accountId,jdbcType=VARCHAR},#{accountName,jdbcType=VARCHAR},#{accountSeq,jdbcType=BIGINT},
+		#{subjectNo,jdbcType=VARCHAR},#{custId,jdbcType=VARCHAR},#{subjectType,jdbcType=VARCHAR},
+		#{accountState,jdbcType=VARCHAR},#{cashAmount,jdbcType=BIGINT},#{drcrFlag,jdbcType=CHAR},
+		#{drAmount,jdbcType=BIGINT},#{crAmount,jdbcType=BIGINT},#{createTime,jdbcType=TIMESTAMP},
+		#{sign,jdbcType=VARCHAR}
+		)
+	</insert>
+
+	<update id="updateAccountAmt" parameterType="cn.mauth.account.core.model.Account">
+		update t_account
+		<set>
+			<if test="accountSeq != null and accountSeq != ''">
+				account_seq = #{accountSeq,jdbcType=VARCHAR},
+			</if>
+			<if test="accountState != null and accountState != ''">
+				account_state = #{accountState,jdbcType=VARCHAR},
+			</if>
+			<if test="cashAmount != null">
+				cash_amount = #{cashAmount,jdbcType=BIGINT},
+			</if>
+			<if test="updateTime != null">
+				update_time = #{updateTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="drAmount != null">
+				dr_amount = #{drAmount,jdbcType=BIGINT},
+			</if>
+			<if test="sign != null and sign != ''">
+				sign = #{sign,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where account_id = #{accountId,jdbcType=VARCHAR}
+	</update>
+</mapper>
