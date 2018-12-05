@@ -9,7 +9,7 @@ import cn.mauth.account.core.model.AccountBook;
 import cn.mauth.account.dao.account.AccountService;
 import cn.mauth.account.dao.accountbill.AccountBillService;
 import cn.mauth.account.dao.accountbook.AccountBookService;
-import cn.mauth.account.core.util.Constants;
+import cn.mauth.account.core.util.GlobalConstant;
 import com.google.gson.Gson;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -163,7 +163,7 @@ public class AccountBillZip {
                 accountBill.setAccountDate(accountBook.getAccountDate());
                 accountBill.setRecordTime(new Date());
 
-                if (!Constants.PLATFORM_INSID.equals(custId)) {
+                if (!GlobalConstant.PLATFORM_INSID.equals(custId)) {
                     accountBill.setAccountAmount(cashAmount);
                     accountBill.setAccountSeq(accountSeq);
                 } else {

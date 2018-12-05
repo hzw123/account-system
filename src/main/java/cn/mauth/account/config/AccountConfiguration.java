@@ -1,18 +1,17 @@
 package cn.mauth.account.config;
 
-import cn.mauth.account.jobtask.RecordBillTask;
-import org.quartz.JobDetail;
-import org.quartz.Trigger;
+import cn.mauth.account.core.util.GlobalConstant;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.ApplicationContext;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
-import org.springframework.scheduling.quartz.CronTriggerFactoryBean;
-import org.springframework.scheduling.quartz.JobDetailFactoryBean;
-import org.springframework.scheduling.quartz.SchedulerFactoryBean;
 
+import javax.sql.DataSource;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.Executor;
 import java.util.concurrent.ThreadPoolExecutor;
 
@@ -44,6 +43,23 @@ public class AccountConfiguration {
         executor.initialize();
         return executor;
     }
+
+//    @Bean
+//    @Primary
+//    public DataSource multipleDataSource(@Qualifier( GlobalConstant.ACCOUNT_SYSTEM_DATA_SOURCE_KEY ) DataSource dataSourceMaster ,
+//            @Qualifier( GlobalConstant.QUARTZ_DATA_SOURCE_KEY ) DataSource dataSourceQuratz) {
+//        DynamicDataSource bean = new DynamicDataSource();
+//        Map<Object, Object> targetDataSources = new HashMap<>();
+//
+//        targetDataSources.put(GlobalConstant.ACCOUNT_SYSTEM_DATA_SOURCE_KEY,dataSourceMaster);
+//        targetDataSources.put(GlobalConstant.QUARTZ_DATA_SOURCE_KEY,dataSourceQuratz);
+//
+//        bean.setTargetDataSources(targetDataSources);
+//
+//        bean.setDefaultTargetDataSource(dataSourceMaster);
+//
+//        return bean;
+//    }
 
 
 //    @Bean

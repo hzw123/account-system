@@ -1,5 +1,6 @@
 package cn.mauth.account.jobtask;
 
+import cn.mauth.account.SpringContextUtil;
 import cn.mauth.account.core.model.AccountBook;
 import cn.mauth.account.zip.AccountBillZip;
 import cn.mauth.account.core.enums.BookStateEnum;
@@ -10,25 +11,29 @@ import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.quartz.QuartzJobBean;
-import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-@Component
 public class RecordBillTask extends QuartzJobBean {
 
-    private Logger logger = LoggerFactory.getLogger(RecordBillTask.class);
+    private final Logger logger = LoggerFactory.getLogger(RecordBillTask.class);
 
-    @Autowired
     private AccountBookService accountBookService;
 
-    @Autowired
     private AccountBillZip accountBillZip;
 
     private static volatile AtomicBoolean isRunning = new AtomicBoolean(false);
+
+    public RecordBillTask() {
+        init();
+    }
+
+    private void init(){
+        this.accountBookService= SpringContextUtil.getBean(AccountBookService.class);
+        this.accountBillZip= SpringContextUtil.getBean(AccountBillZip.class);
+    }
 
     @Override
     protected void executeInternal(JobExecutionContext jobExecutionContext) throws JobExecutionException {

@@ -12,7 +12,7 @@ import cn.mauth.account.core.model.AccountRule;
 import cn.mauth.account.dao.accountbill.AccountBillService;
 import cn.mauth.account.dao.accountbook.AccountBookService;
 import cn.mauth.account.dao.subject.SubjectService;
-import cn.mauth.account.core.util.Constants;
+import cn.mauth.account.core.util.GlobalConstant;
 import com.google.gson.Gson;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -64,17 +64,17 @@ public class AccountBookZip {
             if(DrCrEnum.DR.getValue().equals(payerFlag)){
                 accountBook.setDrSubjectNo(payerSubNo);
                 accountBook.setDrCustId(SubjectService.isPlatformSubNo(payerSubNo) ?
-                        Constants.PLATFORM_INSID : accountBookDTO.getPayerCustId());
+                        GlobalConstant.PLATFORM_INSID : accountBookDTO.getPayerCustId());
                 accountBook.setCrSubjectNo(payeeSubNo);
                 accountBook.setCrCustId(SubjectService.isPlatformSubNo(payeeSubNo) ?
-                        Constants.PLATFORM_INSID : accountBookDTO.getPayeeCustId());
+                        GlobalConstant.PLATFORM_INSID : accountBookDTO.getPayeeCustId());
             } else {
                 accountBook.setCrSubjectNo(payerSubNo);
                 accountBook.setCrCustId(SubjectService.isPlatformSubNo(payerSubNo) ?
-                        Constants.PLATFORM_INSID : accountBookDTO.getPayerCustId());
+                        GlobalConstant.PLATFORM_INSID : accountBookDTO.getPayerCustId());
                 accountBook.setDrSubjectNo(payeeSubNo);
                 accountBook.setDrCustId(SubjectService.isPlatformSubNo(payeeSubNo) ?
-                        Constants.PLATFORM_INSID : accountBookDTO.getPayeeCustId());
+                        GlobalConstant.PLATFORM_INSID : accountBookDTO.getPayeeCustId());
             }
             accountBook.setAmount(accountBookDTO.getAmount());
             accountBook.setBookState(BookStateEnum.INIT.getValue());

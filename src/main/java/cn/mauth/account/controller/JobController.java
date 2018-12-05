@@ -1,7 +1,9 @@
 package cn.mauth.account.controller;
 
 import cn.mauth.account.core.bean.JobBean;
+import cn.mauth.account.core.enums.TriggerEnum;
 import cn.mauth.account.core.model.JobAndTrigger;
+import cn.mauth.account.core.util.Result;
 import cn.mauth.account.dao.jobAndTrigger.JobAndTriggerService;
 import com.github.pagehelper.PageInfo;
 import org.quartz.*;
@@ -23,10 +25,19 @@ public class JobController extends BaseController {
     private Scheduler scheduler;
 
     @PostMapping(value = "/addJob")
-    public void addJob(JobBean jobBean) throws Exception {
+    public Result<String> addJob(JobBean jobBean) throws Exception {
+
+        logger.info("=== 添加任务==="+jobBean);
+
+        int col=service.countByJobName(jobBean.getJobClassName(),jobBean.getJobGroupName());
+
+        if(col>0){
+           return Result.error("该任务已经添加");
+        }
 
         jobAdd(jobBean.getJobClassName(),jobBean.getJobGroupName(),jobBean.getCronExpression());
 
+        return Result.SUCCESS;
     }
 
     private void jobAdd(String jobClassName, String jobGroupName, String cronExpression) throws Exception {
@@ -59,10 +70,19 @@ public class JobController extends BaseController {
      * @throws Exception
      */
     @PostMapping(value="/pauseJob")
-    public void pauseJob(JobBean jobBean) throws Exception {
+    public Result<String> pauseJob(JobBean jobBean) throws Exception {
+
+        logger.info("===暂停任务==="+jobBean);
+
+        String state=service.getState(jobBean.getJobClassName(),jobBean.getJobGroupName());
+
+        if(state==null || TriggerEnum.PAUSED.getValue().equals(state)){
+            return Result.error("该任务早已暂停运行");
+        }
 
         scheduler.pauseJob(JobKey.jobKey(jobBean.getJobClassName(), jobBean.getJobGroupName()));
 
+        return Result.SUCCESS;
     }
 
 
@@ -73,10 +93,19 @@ public class JobController extends BaseController {
      * @throws Exception
      */
     @PostMapping(value="/resumeJob")
-    public void resumeJob(String jobClassName, String jobGroupName) throws Exception {
+    public Result<String> resumeJob(String jobClassName, String jobGroupName) throws Exception {
+
+        logger.info("===恢复任务===jobName:{},jobGroup:{}",jobClassName,jobGroupName);
+
+        String state=service.getState(jobClassName,jobGroupName);
+
+        if(state==null || TriggerEnum.WAITING.getValue().equals(state)){
+            return Result.error("该任务正在运行,不需要恢复");
+        }
 
         scheduler.resumeJob(JobKey.jobKey(jobClassName, jobGroupName));
 
+        return Result.SUCCESS;
     }
 
 
@@ -86,10 +115,19 @@ public class JobController extends BaseController {
      * @throws Exception
      */
     @PostMapping(value="/rescheduleJob")
-    public void rescheduleJob(JobBean jobBean) throws Exception {
+    public Result<String> rescheduleJob(JobBean jobBean) throws Exception {
+
+        logger.info("===更新任务==="+jobBean);
+
+        int col=service.countByJobName(jobBean.getJobClassName(),jobBean.getJobGroupName());
+
+        if(col==0){
+            return Result.error("没有找到该任务");
+        }
 
         jobReschedule(jobBean.getJobClassName(), jobBean.getJobGroupName(), jobBean.getCronExpression());
 
+        return Result.SUCCESS;
     }
 
     private void jobReschedule(String jobClassName, String jobGroupName, String cronExpression) throws Exception {
@@ -117,10 +155,19 @@ public class JobController extends BaseController {
 
 
     @PostMapping(value="/deleteJob")
-    public void deleteJob(String jobClassName,String jobGroupName) throws Exception {
+    public Result<String> deleteJob(String jobClassName,String jobGroupName) throws Exception {
+
+        logger.info("===删除任务===jobName:{},jobGroup:{}",jobClassName,jobGroupName);
+
+        int col=service.countByJobName(jobClassName,jobGroupName);
+
+        if(col==0){
+            return Result.error("没有找到该任务");
+        }
 
         jobDelete(jobClassName, jobGroupName);
 
+        return Result.SUCCESS;
     }
 
     private void jobDelete(String jobClassName, String jobGroupName) throws Exception {

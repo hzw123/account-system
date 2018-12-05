@@ -5,7 +5,7 @@ import cn.mauth.account.core.model.AccountSubject;
 import cn.mauth.account.dao.account.AccountService;
 import cn.mauth.account.dao.accountsubject.AccountSubjectService;
 import cn.mauth.account.core.util.DateUtil;
-import cn.mauth.account.core.util.Constants;
+import cn.mauth.account.core.util.GlobalConstant;
 import com.google.gson.Gson;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -68,7 +68,7 @@ public class AccountCache extends CacheManager {
 
     @Override
     public List<Object> addNewCacheValue(String searchKey) {
-        String[] keyArray = searchKey.split(Constants.keyLinkSymbol);
+        String[] keyArray = searchKey.split(GlobalConstant.keyLinkSymbol);
         String subjectNo = keyArray[0];
         String custId = keyArray[1];
 

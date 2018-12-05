@@ -68,22 +68,22 @@ spring:
     charset: utf-8
     request-context-attribute: request
 
-  dubbo:
-    application:
-      name: account-service
-      owner: dubbo-consumer
-    registry:
-      protocol: zookeeper
-      address: zookeeper://127.0.0.1:2181
-      port: 2181
-      username:
-      password:
-    protocol:
-      name: dubbo
-      host: 127.0.0.1
-      port: 20880
-    provider:
-      retries: 0
+#  dubbo:
+#    application:
+#      name: account-service
+#      owner: dubbo-consumer
+#    registry:
+#      protocol: zookeeper
+#      address: zookeeper://127.0.0.1:2181
+#      port: 2181
+#      username:
+#      password:
+#    protocol:
+#      name: dubbo
+#      host: 127.0.0.1
+#      port: 20880
+#    provider:
+#      retries: 0
 #
 #  redis:
 #    host: 127.0.0.1

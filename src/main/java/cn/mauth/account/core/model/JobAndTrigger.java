@@ -16,6 +16,9 @@ public class JobAndTrigger implements Serializable{
     private BigInteger TimesTriggered;
     private String cronExpression;
     private String timeZoneId;
+    private String triggerState;
+    private Long startTime;
+    private Long endTime;
 
     public String getJobName() {
         return jobName;
@@ -87,5 +90,29 @@ public class JobAndTrigger implements Serializable{
 
     public void setTimeZoneId(String timeZoneId) {
         this.timeZoneId = timeZoneId;
+    }
+
+    public String getTriggerState() {
+        return triggerState;
+    }
+
+    public void setTriggerState(String triggerState) {
+        this.triggerState = triggerState;
+    }
+
+    public Long getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(Long startTime) {
+        this.startTime = startTime;
+    }
+
+    public Long getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(Long endTime) {
+        this.endTime = endTime;
     }
 }

@@ -74,18 +74,18 @@
 			<artifactId>spring-boot-starter-quartz</artifactId>
 		</dependency>
 
-		<dependency>
-			<groupId>com.gitee.reger</groupId>
-			<artifactId>spring-boot-starter-dubbo</artifactId>
-			<version>1.1.1</version>
-		</dependency>
+		<!--<dependency>-->
+			<!--<groupId>com.gitee.reger</groupId>-->
+			<!--<artifactId>spring-boot-starter-dubbo</artifactId>-->
+			<!--<version>1.1.1</version>-->
+		<!--</dependency>-->
 
-		<!--zookeeper依赖 -->
-		<dependency>
-			<groupId>org.apache.zookeeper</groupId>
-			<artifactId>zookeeper</artifactId>
-			<version>3.4.6</version>
-		</dependency>
+		<!--&lt;!&ndash;zookeeper依赖 &ndash;&gt;-->
+		<!--<dependency>-->
+			<!--<groupId>org.apache.zookeeper</groupId>-->
+			<!--<artifactId>zookeeper</artifactId>-->
+			<!--<version>3.4.6</version>-->
+		<!--</dependency>-->
 
 		<dependency>
 			<groupId>mysql</groupId>

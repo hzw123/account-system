@@ -25,4 +25,12 @@ public class JobAndTriggerService {
 
         return page;
     }
+
+    public int countByJobName(String jobName,String jobGroup){
+        return mapper.countByJobName(jobName,jobGroup);
+    }
+
+    public String getState(String jobName,String jobGroup){
+        return mapper.getState(jobName,jobGroup);
+    }
 }

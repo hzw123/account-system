@@ -1,6 +1,7 @@
 package cn.mauth.account.core.util.cache;
 
-import cn.mauth.account.core.util.Constants;
+import cn.mauth.account.SpringContextUtil;
+import cn.mauth.account.core.util.GlobalConstant;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
@@ -21,11 +22,9 @@ public abstract class CacheManager {
 
     private static Logger logger = LoggerFactory.getLogger(CacheManager.class);
 
-    private static ApplicationContext applicationContext= ContextLoader.getCurrentWebApplicationContext();
-
     private static final ConcurrentHashMap<String, Map<String, List<Object>>> sysCache = new ConcurrentHashMap<>();
 
-    private static final String linkSymbol = Constants.keyLinkSymbol;
+    private static final String linkSymbol = GlobalConstant.keyLinkSymbol;
 
     /**
      * 如果从缓存中不能得到需求的值，需要子类负责完成应执行的功能。
@@ -65,7 +64,7 @@ public abstract class CacheManager {
         } else {
             sysCache.put(cacheName, cache);
         }
-        Object obj = applicationContext.getBean(service);
+        Object obj = SpringContextUtil.getBean(service);
         try {
             Object data = serviceMethod.invoke(obj, null);
 

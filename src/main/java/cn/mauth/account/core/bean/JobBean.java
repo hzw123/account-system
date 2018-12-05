@@ -32,4 +32,13 @@ public class JobBean implements Serializable{
     public void setCronExpression(String cronExpression) {
         this.cronExpression = cronExpression;
     }
+
+    @Override
+    public String toString() {
+        return "JobBean{" +
+                "jobClassName='" + jobClassName + '\'' +
+                ", jobGroupName='" + jobGroupName + '\'' +
+                ", cronExpression='" + cronExpression + '\'' +
+                '}';
+    }
 }

@@ -9,6 +9,9 @@
         qrtz_job_details.JOB_CLASS_NAME as jobClassName,
         qrtz_triggers.TRIGGER_NAME AS triggerName,
         qrtz_triggers.TRIGGER_GROUP AS triggerGroup,
+        qrtz_triggers.TRIGGER_STATE as triggerState,
+        qrtz_triggers.START_TIME as startTime,
+        qrtz_triggers.END_TIME as endTime,
         qrtz_cron_triggers.CRON_EXPRESSION as cronExpression,
         qrtz_cron_triggers.TIME_ZONE_ID as timeZoneId
         FROM
@@ -19,4 +22,11 @@
         AND qrtz_triggers.TRIGGER_GROUP = qrtz_cron_triggers.TRIGGER_GROUP
     </select>
 
+    <select id="countByJobName" resultType="int">
+        select count(1) from qrtz_triggers where JOB_NAME=#{jobName}
+    </select>
+
+    <select id="getState" resultType="java.lang.String">
+        select TRIGGER_STATE FROM qrtz_triggers where JOB_NAME=#{jobName} and JOB_GROUP=#{jobGroup}
+    </select>
 </mapper>
