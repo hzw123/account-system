@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Quartz Demo</title>
+    <title>Account-system Quartz </title>
     <#--<link rel="stylesheet" href="https://unpkg.com/element-ui@2.0.5/lib/theme-chalk/index.css">-->
     <#--<script src="https://unpkg.com/vue/dist/vue.js"></script>-->
     <#--<script src="http://cdn.bootcss.com/vue-resource/1.3.4/vue-resource.js"></script>-->
@@ -11,6 +11,7 @@
     <script src="/js/vue.js"></script>
     <script src="/js/vue-resource.js"></script>
     <script src="/js/index.js"></script>
+    <script src="/js//plugins/moment/moment.min.js"></script>
 
     <style>
         #top {
@@ -25,8 +26,8 @@
 <div id="app">
 
     <div id="top">
-        <el-button type="primary" size="small" style="color:white">查询</el-button>
-        <el-button type="primary" size="small" @click="handleAdd" style="color:white">添加</el-button>
+        <el-button type="primary" icon="el-icon-search" @click="search" style="color:white">查询</el-button>
+        <el-button type="danger" icon="el-icon-circle-plus-outline" @click="handleAdd" style="color:white">添加</el-button>
         </span>
     </div>
 
@@ -55,11 +56,12 @@
 
             <el-table-column prop="startTime"
                              label="开始时间"
+                             :formatter="setMoment"
                              sortable></el-table-column>
 
             <el-table-column prop="timeZoneId" label="时区" sortable></el-table-column>
 
-            <el-table-column label="操作" width="300">
+            <el-table-column label="操作" width="350">
 
                 <template scope="scope">
 
@@ -67,7 +69,7 @@
 
                     <el-button size="small" type="info" @click="handleResume(scope.$index, scope.row)">恢复</el-button>
 
-                    <el-button size="small" type="danger" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+                    <el-button size="small" type="danger" icon="el-icon-delete" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
 
                     <el-button size="small" type="success" @click="handleUpdate(scope.$index, scope.row)">修改</el-button>
 
@@ -90,7 +92,7 @@
         </div>
     </div>
 
-    <el-dialog title="添加任务" :visible.syn="dialogFormVisible">
+    <el-dialog title="添加任务" :visible.syn="dialogFormVisible" @close="dialogFormVisible = false">
 
         <el-form :model="form">
 
@@ -116,14 +118,14 @@
 
         <div slot="footer" class="dialog-footer">
 
-            <el-button @click="dialogFormVisible = false">取 消</el-button>
+            <el-button type="danger" icon="el-icon-close" @click="dialogFormVisible = false">取 消</el-button>
 
-            <el-button type="primary" @click="add">确 定</el-button>
+            <el-button type="success" icon="el-icon-check" @click="add">确 定</el-button>
 
         </div>
     </el-dialog>
 
-    <el-dialog title="修改任务" :visible.syn="updateFormVisible">
+    <el-dialog title="修改任务" :visible.syn="updateFormVisible" @close="updateFormVisible = false">
         <el-form :model="jobForm">
 
             <el-form-item label="表达式" label-width="120px" style="width:60%">
@@ -135,47 +137,47 @@
         </el-form>
         <div slot="footer" class="dialog-footer">
 
-            <el-button @click="updateFormVisible = false">取 消</el-button>
+            <el-button type="danger" icon="el-icon-close" @click="updateFormVisible = false">取 消</el-button>
 
-            <el-button type="primary" @click="update">确 定</el-button>
+            <el-button type="success" icon="el-icon-check" @click="update">确 定</el-button>
 
         </div>
 
     </el-dialog>
 
-    <el-dialog title="暂停任务" :visible.syn="pauseFromVisible">
-            <div style="text-align: center">您确定要暂停任务：{{jobForm.jobClassName}} 吗?</div>
+    <el-dialog title="暂停任务" :visible.syn="pauseFromVisible" @close="pauseFromVisible = false">
+        <div style="text-align: center">您确定要暂停任务：{{jobForm.jobClassName}} 吗?</div>
         <div slot="footer" class="dialog-footer">
 
-            <el-button @click="pauseFromVisible = false">取 消</el-button>
+            <el-button type="danger" icon="el-icon-close" @click="pauseFromVisible = false">取 消</el-button>
 
-            <el-button type="primary" @click="pause">确 定</el-button>
+            <el-button type="success" icon="el-icon-check" @click="pause">确 定</el-button>
 
         </div>
     </el-dialog>
 
-    <el-dialog title="恢复任务" :visible.syn="resumeFromVisible">
+    <el-dialog title="恢复任务" :visible.syn="resumeFromVisible" @close="resumeFromVisible = false">
 
         <div style="text-align: center">您确定要恢复任务：{{jobForm.jobClassName}} 吗?</div>
 
         <div slot="footer" class="dialog-footer">
 
-            <el-button @click="resumeFromVisible = false">取 消</el-button>
+            <el-button type="danger" icon="el-icon-close" @click="resumeFromVisible = false">取 消</el-button>
 
-            <el-button type="primary" @click="resume">确 定</el-button>
+            <el-button type="success" icon="el-icon-check" @click="resume">确 定</el-button>
 
         </div>
     </el-dialog>
 
-    <el-dialog title="删除任务" :visible.syn="deleteFromVisible">
+    <el-dialog title="删除任务" :visible.syn="deleteFromVisible" @close="deleteFromVisible = false">
 
         <div style="text-align: center">您确定要删除任务：{{jobForm.jobClassName}} 吗?</div>
 
         <div slot="footer" class="dialog-footer">
 
-            <el-button @click="deleteFromVisible = false">取 消</el-button>
+            <el-button type="danger" icon="el-icon-close" @click="deleteFromVisible = false">取 消</el-button>
 
-            <el-button type="primary" @click="deleteOne">确 定</el-button>
+            <el-button type="success" icon="el-icon-check" @click="deleteOne">确 定</el-button>
 
         </div>
     </el-dialog>
@@ -270,6 +272,15 @@
             setState: function (row, column) {
                 var state=row[column.property];
                 return state=="PAUSED"?"暂停":"等待";
+            },
+
+            setMoment: function (row, column) {
+                var time=row[column.property];
+                if (time != null) {
+                    return moment(time).format('YYYY-MM-DD HH:mm:ss');
+                } else {
+                    return time;
+                }
             },
 
             //弹出暂停任务添加对话框
