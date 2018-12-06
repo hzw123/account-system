@@ -3,6 +3,9 @@ package cn.mauth.account.core.model;
 import java.io.Serializable;
 import java.util.Date;
 
+/**
+ * 帐单
+ */
 public class AccountBill implements Serializable {
 
     private static final long serialVersionUID = 1L;

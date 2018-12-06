@@ -1,5 +1,7 @@
 package cn.mauth.account.core.model;
 
+import cn.mauth.account.core.enums.TriggerEnum;
+
 import java.io.Serializable;
 import java.math.BigInteger;
 
@@ -12,13 +14,14 @@ public class JobAndTrigger implements Serializable{
     private String jobClassName;
     private String triggerName;
     private String triggerGroup;
-    private BigInteger repeatInterval;
-    private BigInteger TimesTriggered;
     private String cronExpression;
     private String timeZoneId;
-    private String triggerState;
+    private TriggerEnum triggerState;
     private Long startTime;
     private Long endTime;
+    private Long nextFireTime;
+    private Long prevFireTime;
+    private String state;
 
     public String getJobName() {
         return jobName;
@@ -60,22 +63,6 @@ public class JobAndTrigger implements Serializable{
         this.triggerGroup = triggerGroup;
     }
 
-    public BigInteger getRepeatInterval() {
-        return repeatInterval;
-    }
-
-    public void setRepeatInterval(BigInteger repeatInterval) {
-        this.repeatInterval = repeatInterval;
-    }
-
-    public BigInteger getTimesTriggered() {
-        return TimesTriggered;
-    }
-
-    public void setTimesTriggered(BigInteger timesTriggered) {
-        TimesTriggered = timesTriggered;
-    }
-
     public String getCronExpression() {
         return cronExpression;
     }
@@ -92,11 +79,11 @@ public class JobAndTrigger implements Serializable{
         this.timeZoneId = timeZoneId;
     }
 
-    public String getTriggerState() {
+    public TriggerEnum getTriggerState() {
         return triggerState;
     }
 
-    public void setTriggerState(String triggerState) {
+    public void setTriggerState(TriggerEnum triggerState) {
         this.triggerState = triggerState;
     }
 
@@ -114,5 +101,29 @@ public class JobAndTrigger implements Serializable{
 
     public void setEndTime(Long endTime) {
         this.endTime = endTime;
+    }
+
+    public Long getNextFireTime() {
+        return nextFireTime;
+    }
+
+    public void setNextFireTime(Long nextFireTime) {
+        this.nextFireTime = nextFireTime;
+    }
+
+    public Long getPrevFireTime() {
+        return prevFireTime;
+    }
+
+    public void setPrevFireTime(Long prevFireTime) {
+        this.prevFireTime = prevFireTime;
+    }
+
+    public String getState() {
+        return this.triggerState.getDisplayName();
+    }
+
+    public void setState(String state) {
+        this.state = state;
     }
 }

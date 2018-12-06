@@ -59,7 +59,7 @@ public class JobController extends BaseController {
             scheduler.scheduleJob(jobDetail, trigger);
 
         } catch (SchedulerException e) {
-            System.out.println("创建定时任务失败" + e);
+            logger.error("创建定时任务失败" + e);
             throw new Exception("创建定时任务失败");
         }
     }
@@ -147,7 +147,7 @@ public class JobController extends BaseController {
 
         } catch (SchedulerException e) {
 
-            System.out.println("更新定时任务失败"+e);
+            logger.error("更新定时任务失败"+e);
 
             throw new Exception("更新定时任务失败");
         }

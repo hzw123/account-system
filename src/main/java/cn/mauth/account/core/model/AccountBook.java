@@ -3,6 +3,9 @@ package cn.mauth.account.core.model;
 import java.io.Serializable;
 import java.util.Date;
 
+/**
+ *复式明细记账
+ */
 public class AccountBook implements Serializable {
 
     private static final long serialVersionUID = 1L;

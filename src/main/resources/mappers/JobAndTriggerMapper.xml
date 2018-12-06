@@ -4,22 +4,24 @@
 
     <select id="getJobAndTriggerDetails" resultType="cn.mauth.account.core.model.JobAndTrigger">
         SELECT
-        qrtz_job_details.JOB_NAME as jobName,
-        qrtz_job_details.JOB_GROUP as jobGroup,
-        qrtz_job_details.JOB_CLASS_NAME as jobClassName,
-        qrtz_triggers.TRIGGER_NAME AS triggerName,
-        qrtz_triggers.TRIGGER_GROUP AS triggerGroup,
-        qrtz_triggers.TRIGGER_STATE as triggerState,
-        qrtz_triggers.START_TIME as startTime,
-        qrtz_triggers.END_TIME as endTime,
-        qrtz_cron_triggers.CRON_EXPRESSION as cronExpression,
-        qrtz_cron_triggers.TIME_ZONE_ID as timeZoneId
+            jd.JOB_NAME as jobName,
+            jd.JOB_GROUP as jobGroup,
+            jd.JOB_CLASS_NAME as jobClassName,
+            t.TRIGGER_NAME AS triggerName,
+            t.TRIGGER_GROUP AS triggerGroup,
+            t.TRIGGER_STATE as triggerState,
+            t.NEXT_FIRE_TIME as nextFireTime,
+            t.PREV_FIRE_TIME as prevFireTime,
+            t.START_TIME as startTime,
+            t.END_TIME as endTime,
+            ct.CRON_EXPRESSION as cronExpression,
+            ct.TIME_ZONE_ID as timeZoneId
         FROM
-        qrtz_job_details
-        JOIN qrtz_triggers
-        JOIN qrtz_cron_triggers ON qrtz_job_details.JOB_NAME = qrtz_triggers.JOB_NAME
-        AND qrtz_triggers.TRIGGER_NAME = qrtz_cron_triggers.TRIGGER_NAME
-        AND qrtz_triggers.TRIGGER_GROUP = qrtz_cron_triggers.TRIGGER_GROUP
+          qrtz_job_details jd
+            JOIN qrtz_triggers t
+            JOIN qrtz_cron_triggers ct ON jd.JOB_NAME = t.JOB_NAME
+            AND t.TRIGGER_NAME = ct.TRIGGER_NAME
+            AND t.TRIGGER_GROUP = ct.TRIGGER_GROUP
     </select>
 
     <select id="countByJobName" resultType="int">

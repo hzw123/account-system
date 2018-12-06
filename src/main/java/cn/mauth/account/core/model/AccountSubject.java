@@ -2,6 +2,9 @@ package cn.mauth.account.core.model;
 
 import java.io.Serializable;
 
+/**
+ * 账户科目
+ */
 public class AccountSubject implements Serializable {
 
     private static final long serialVersionUID = 1L;

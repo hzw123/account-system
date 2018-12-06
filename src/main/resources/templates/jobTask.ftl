@@ -2,6 +2,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
+    <link rel="icon" type="image/png" sizes="16x16" href="/image/favicon-16x16.png">
     <title>Account-system Quartz </title>
     <#--<link rel="stylesheet" href="https://unpkg.com/element-ui@2.0.5/lib/theme-chalk/index.css">-->
     <#--<script src="https://unpkg.com/vue/dist/vue.js"></script>-->
@@ -18,6 +19,9 @@
             background: #d8f0ff;
             padding:5px;
             overflow:hidden
+        }
+        body{
+            padding:20px 10px;
         }
     </style>
 
@@ -39,29 +43,37 @@
 
             <el-table-column prop="jobName" label="任务名称" sortable show-overflow-tooltip></el-table-column>
 
-            <el-table-column prop="jobGroup" label="任务所在组" sortable></el-table-column>
+            <el-table-column prop="jobGroup" label="任务所在组" sortable show-overflow-tooltip></el-table-column>
 
-            <el-table-column prop="jobClassName" label="任务类名" sortable></el-table-column>
+            <el-table-column prop="jobClassName" label="任务类名" sortable show-overflow-tooltip></el-table-column>
 
-            <el-table-column prop="triggerName" label="触发器名称" sortable></el-table-column>
+            <el-table-column prop="triggerName" label="触发器名称" sortable show-overflow-tooltip></el-table-column>
 
-            <el-table-column prop="triggerGroup" label="触发器所在组" sortable></el-table-column>
+            <el-table-column prop="triggerGroup" label="触发器所在组" sortable show-overflow-tooltip></el-table-column>
 
-            <el-table-column prop="cronExpression" label="表达式" sortable></el-table-column>
+            <el-table-column prop="cronExpression" label="表达式" sortable show-overflow-tooltip></el-table-column>
 
-            <el-table-column prop="triggerState"
+            <el-table-column prop="state"
                              label="状态"
-                             :formatter="setState"
-                             sortable></el-table-column>
+                             <#--:formatter="setState"-->
+                             sortable show-overflow-tooltip></el-table-column>
 
             <el-table-column prop="startTime"
                              label="开始时间"
                              :formatter="setMoment"
-                             sortable></el-table-column>
+                             sortable show-overflow-tooltip></el-table-column>
+            <el-table-column prop="prevFireTime"
+                             label="上次执行时间"
+                             :formatter="setMoment"
+                             sortable show-overflow-tooltip></el-table-column>
+            <el-table-column prop="nextFireTime"
+                             label="下次执行时间"
+                             :formatter="setMoment"
+                             sortable show-overflow-tooltip></el-table-column>
 
-            <el-table-column prop="timeZoneId" label="时区" sortable></el-table-column>
+            <el-table-column prop="timeZoneId" label="时区" sortable show-overflow-tooltip></el-table-column>
 
-            <el-table-column label="操作" width="350">
+            <el-table-column label="操作" width="310" >
 
                 <template scope="scope">
 
@@ -286,7 +298,7 @@
             //弹出暂停任务添加对话框
             handlePause: function(index, row){
                 console.log(row.triggerState);
-                if(row.triggerState=='PAUSED'){
+                if(row.triggerState!='WAITING'){
                     return;
                 }
                 this.pauseFromVisible=true;
@@ -313,7 +325,7 @@
             //弹出暂停任务添加对话框
             handleResume: function(index, row){
                 console.log(row.triggerState);
-                if(row.triggerState=='WAITING'){
+                if(row.triggerState!='PAUSED'){
                     return;
                 }
                 this.resumeFromVisible=true;
