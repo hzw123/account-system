@@ -1,9 +1,9 @@
 package cn.mauth.account.config;
 
 import cn.mauth.account.core.util.GlobalConstant;
+import com.github.pagehelper.PageHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -13,6 +13,7 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import javax.sql.DataSource;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Properties;
 import java.util.concurrent.Executor;
 import java.util.concurrent.ThreadPoolExecutor;
 
@@ -45,6 +46,18 @@ public class AccountConfiguration {
         return executor;
     }
 
+    @Bean
+    public PageHelper pageHelper() {
+        PageHelper pageHelper = new PageHelper();
+        Properties p = new Properties();
+        p.setProperty("offsetAsPageNum", "true");
+        p.setProperty("rowBoundsWithCount", "true");
+        p.setProperty("reasonable", "true");
+        p.setProperty("dialect", "mysql");
+        pageHelper.setProperties(p);
+        return pageHelper;
+    }
+
 //    @Bean
 //    @Primary
 //    public DataSource multipleDataSource(@Qualifier( GlobalConstant.ACCOUNT_SYSTEM_DATA_SOURCE_KEY ) DataSource dataSourceMaster ,
@@ -58,33 +71,6 @@ public class AccountConfiguration {
 //        bean.setTargetDataSources(targetDataSources);
 //
 //        bean.setDefaultTargetDataSource(dataSourceMaster);
-//
-//        return bean;
-//    }
-
-
-//    @Bean
-//    public JobDetailFactoryBean jobDetailFactoryBean(ApplicationContext applicationContext) {
-//        JobDetailFactoryBean bean = new JobDetailFactoryBean();
-//
-//        bean.setBeanName("srd-job-bill");
-//        bean.setGroup("srd");
-//        bean.setDurability(true);
-//        bean.setDescription("复式明细入库定时任务");
-//        bean.setJobClass(RecordBillTask.class);
-//        bean.setApplicationContext(applicationContext);
-//
-//        return bean;
-//    }
-//
-//    @Bean
-//    public CronTriggerFactoryBean cronTriggerFactoryBean(JobDetail jobDetail) {
-//        CronTriggerFactoryBean bean = new CronTriggerFactoryBean();
-//
-//        bean.setBeanName("srd-trigger");
-//        bean.setGroup("srd");
-//        bean.setJobDetail(jobDetail);
-//        bean.setCronExpression("0 0/2 * ? * * *");
 //
 //        return bean;
 //    }

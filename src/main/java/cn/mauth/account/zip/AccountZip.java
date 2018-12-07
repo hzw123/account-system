@@ -199,7 +199,6 @@ public class AccountZip {
             changeAccount.setCashAmount(account.getCashAmount() + changeAmount);
             changeAccount.setDrAmount(drAmount);
             changeAccount.setCrAmount(crAmount);
-            changeAccount.setUpdateTime(new Date());
 
             accountService.updateAccountAmt(changeAccount);
 

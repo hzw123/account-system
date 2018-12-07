@@ -3,7 +3,7 @@ package cn.mauth.account.core.enums;
 public enum TriggerEnum {
 
     WAITING("WAITING","等待"),
-    ACQUIRED("ACQUIRED","正常执行"),
+    ACQUIRED("ACQUIRED","执行中"),
     BLOCKED("BLOCKED","阻塞"),
     PAUSED("PAUSED","暂停"),
     ERROR("ERROR","错误");

@@ -11,6 +11,8 @@ import java.util.List;
 public interface AccountMapper{
     Account findAccountByKeyWithLock(String accountId);
 
+    Account findAccountByKey(String accountId);
+
     Account findAccountIdByCustAndSubject(@Param("custId") String custId, @Param("subjectNo") String subjectNo);
 
     List<Account> getAllAccount();
@@ -18,4 +20,6 @@ public interface AccountMapper{
     void saveAccount(Account account);
 
     Integer updateAccountAmt(Account account);
+
+    int deleteAccountByAccountId(String accountId);
 }

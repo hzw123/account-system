@@ -1,6 +1,7 @@
 package cn.mauth.account.mapper;
 
 import cn.mauth.account.core.model.JobAndTrigger;
+import com.github.pagehelper.Page;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 

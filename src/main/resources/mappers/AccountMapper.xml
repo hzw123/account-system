@@ -44,6 +44,14 @@
 		for update
 	</select>
 
+	<select id="findAccountByKey" parameterType="java.lang.String"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List"/>
+		where account_id = #{accountId,jdbcType=VARCHAR}
+		for update
+	</select>
+
 	<select id="getAllAccount" resultMap="BaseResultMap">
 		select
 		<include refid="Base_Column_List"/>
@@ -59,7 +67,7 @@
 		#{accountId,jdbcType=VARCHAR},#{accountName,jdbcType=VARCHAR},#{accountSeq,jdbcType=BIGINT},
 		#{subjectNo,jdbcType=VARCHAR},#{custId,jdbcType=VARCHAR},#{subjectType,jdbcType=VARCHAR},
 		#{accountState,jdbcType=VARCHAR},#{cashAmount,jdbcType=BIGINT},#{drcrFlag,jdbcType=CHAR},
-		#{drAmount,jdbcType=BIGINT},#{crAmount,jdbcType=BIGINT},#{createTime,jdbcType=TIMESTAMP},
+		#{drAmount,jdbcType=BIGINT},#{crAmount,jdbcType=BIGINT},now(),
 		#{sign,jdbcType=VARCHAR}
 		)
 	</insert>
@@ -76,8 +84,8 @@
 			<if test="cashAmount != null">
 				cash_amount = #{cashAmount,jdbcType=BIGINT},
 			</if>
-			<if test="updateTime != null">
-				update_time = #{updateTime,jdbcType=TIMESTAMP},
+			<if test="1==1">
+				update_time = now(),
 			</if>
 			<if test="drAmount != null">
 				dr_amount = #{drAmount,jdbcType=BIGINT},
@@ -88,4 +96,8 @@
 		</set>
 		where account_id = #{accountId,jdbcType=VARCHAR}
 	</update>
+
+	<delete id="deleteAccountByAccountId" parameterType="java.lang.String">
+		delete from t_account  where account_id=#{accountId}
+	</delete>
 </mapper>

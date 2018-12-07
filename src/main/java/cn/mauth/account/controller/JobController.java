@@ -3,6 +3,7 @@ package cn.mauth.account.controller;
 import cn.mauth.account.core.bean.JobBean;
 import cn.mauth.account.core.enums.TriggerEnum;
 import cn.mauth.account.core.model.JobAndTrigger;
+import cn.mauth.account.core.util.PageUtil;
 import cn.mauth.account.core.util.Result;
 import cn.mauth.account.dao.jobAndTrigger.JobAndTriggerService;
 import com.github.pagehelper.PageInfo;
@@ -11,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.quartz.QuartzJobBean;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
 import java.util.Map;
 
 @RestController
@@ -183,11 +183,7 @@ public class JobController extends BaseController {
 
     @GetMapping(value="/queryJob")
     public Map<String, Object> queryJob(@RequestParam(value="pageNum")Integer pageNum, @RequestParam(value="pageSize")Integer pageSize){
-        PageInfo<JobAndTrigger> jobAndTrigger = service.getJobAndTriggerDetails(pageNum, pageSize);
-        Map<String, Object> map = new HashMap<>();
-        map.put("data", jobAndTrigger);
-        map.put("number", jobAndTrigger.getTotal());
-        return map;
+        return PageUtil.result(service.getJobAndTriggerDetails(pageNum, pageSize));
     }
 
     private QuartzJobBean getClass(String classname) throws Exception {

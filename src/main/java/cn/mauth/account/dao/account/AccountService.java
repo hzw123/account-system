@@ -1,7 +1,10 @@
 package cn.mauth.account.dao.account;
 
+import cn.mauth.account.core.bean.Pageable;
+import cn.mauth.account.core.util.PageUtil;
 import cn.mauth.account.mapper.AccountMapper;
 import cn.mauth.account.core.model.Account;
+import com.github.pagehelper.PageInfo;
 import com.google.gson.Gson;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -60,5 +63,42 @@ public class AccountService {
 
 	public void updateAccountAmt(Account account){
 		accountMapper.updateAccountAmt(account);
+	}
+
+	public Account findAccountByKey(String accountId){
+		return accountMapper.findAccountByKey(accountId);
+	}
+
+	public PageInfo<Account> page(Pageable pageable){
+		PageUtil.startPage(pageable);
+
+		return new PageInfo<>(accountMapper.getAllAccount());
+	}
+
+	public boolean updateAccountAndLock(Account account){
+
+		Account oldAccount=accountMapper.findAccountByKeyWithLock(account.getAccountId());
+
+		if(oldAccount==null){
+			logger.error("按照账号{}查询用户账户失败，退出账户修改！", account.getAccountId());
+			return false;
+		}
+
+		accountMapper.updateAccountAmt(account);
+
+		logger.info("账户{}变更成功，变更后信息：{}", new Gson().toJson(oldAccount),
+				new Gson().toJson(account));
+		return true;
+	}
+
+	public boolean deleteAccountByAccountId(String accountId){
+		boolean saveRes = false;
+		try{
+			accountMapper.deleteAccountByAccountId(accountId);
+			saveRes = true;
+		} catch (Exception e){
+			logger.error("删除账户{}时出错", accountId, e);
+		}
+		return saveRes;
 	}
 }
