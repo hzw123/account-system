@@ -12,6 +12,7 @@
         <#--<script src="http://cdn.bootcss.com/vue-resource/1.3.4/vue-resource.js"></script>-->
         <#--<script src="https://unpkg.com/element-ui@2.0.5/lib/index.js"></script>-->
         <link rel="stylesheet" href="/css/index.css">
+        <link rel="stylesheet" href="/css/main.css">
         <script src="/js/vue.js"></script>
         <script src="/js/vue-resource.js"></script>
         <script src="/js/index.js"></script>

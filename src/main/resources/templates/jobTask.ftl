@@ -79,21 +79,21 @@
 
     <el-dialog title="添加任务" :visible.syn="dialogFormVisible" @close="dialogFormVisible = false">
 
-        <el-form :model="form">
+        <el-form :model="form" :rules="rules">
 
-            <el-form-item label="任务名称" label-width="120px" style="width:60%">
+            <el-form-item label="任务名称" prop="jobName" label-width="120px" style="width:60%">
 
                 <el-input v-model="form.jobName" auto-complete="off"></el-input>
 
             </el-form-item>
 
-            <el-form-item label="任务分组" label-width="120px" style="width:60%">
+            <el-form-item label="任务分组" prop="jobGroup" label-width="120px" style="width:60%">
 
                 <el-input v-model="form.jobGroup" auto-complete="off"></el-input>
 
             </el-form-item>
 
-            <el-form-item label="表达式" label-width="120px" style="width:60%">
+            <el-form-item label="表达式" prop="cronExpression" label-width="120px" style="width:60%">
 
                 <el-input v-model="form.cronExpression" auto-complete="off"></el-input>
 
@@ -220,6 +220,11 @@
                 jobClassName:'',
                 jobGroupName:'',
                 cronExpression:''
+            },
+            rules:{
+                jobName:[{required: true, message: '请输入任务名称', trigger: 'blur'}],
+                jobGroup:[{required: true, message: '请输入组名', trigger: 'blur'}],
+                cronExpression:[{required: true, message: '请输入表达式', trigger: 'blur'}]
             }
         },
 

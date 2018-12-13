@@ -15,11 +15,16 @@ public final class HttpUtil {
 
     }
 
-    public void addSession(String key,Object obj){
+    public static void addSession(String key,Object obj){
         HttpUtil.getRequest().getSession().setAttribute(key,obj);
     }
 
     public static Object getSession(String key){
         return HttpUtil.getRequest().getSession().getAttribute(key);
     }
+
+    public static String getHeaderValue(String key){
+        return getRequest().getHeader(key);
+    }
+
 }

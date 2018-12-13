@@ -230,7 +230,7 @@
     </el-dialog>
 
     <el-dialog title="冻结账户" :visible.syn="pauseFromVisible" @close="pauseFromVisible = false">
-        <div style="text-align: center">您确定要冻结账户：{{upFrom.accountId}} 吗?</div>
+        <div style="text-align: center">您确定要冻结账户：{{upForm.accountId}} 吗?</div>
         <div slot="footer" class="dialog-footer">
 
             <el-button type="danger" icon="el-icon-close" @click="pauseFromVisible = false">取 消</el-button>
@@ -242,7 +242,7 @@
 
     <el-dialog title="恢复账户" :visible.syn="resumeFromVisible" @close="resumeFromVisible = false">
 
-        <div style="text-align: center">您确定要恢复账户：{{upFrom.accountId}} 吗?</div>
+        <div style="text-align: center">您确定要恢复账户：{{upForm.accountId}} 吗?</div>
 
         <div slot="footer" class="dialog-footer">
 
@@ -255,7 +255,7 @@
 
     <el-dialog title="删除账户" :visible.syn="deleteFromVisible" @close="deleteFromVisible = false">
 
-        <div style="text-align: center">您确定要删除账户：{{upFrom.accountId}} 吗?</div>
+        <div style="text-align: center">您确定要删除账户：{{upForm.accountId}} 吗?</div>
 
         <div slot="footer" class="dialog-footer">
 

@@ -96,3 +96,9 @@ mybatis:
 
 logging:
   file: ./log/${spring.application.name}.log
+  level:
+    cn:
+      mauth:
+        account:
+          mapper: debug
+
